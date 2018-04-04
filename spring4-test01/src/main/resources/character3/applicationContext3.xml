@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+
+    <!--先来配置3个car，这些car是为了演示下面的配置集合属性（人有多辆车）-->
+    <bean id="car1" class="cn.rain.character2.pojo.Car">
+        <constructor-arg value="奥迪" type="java.lang.String"/>
+        <constructor-arg value="一汽大众-奥迪" type="java.lang.String"/>
+        <constructor-arg value="19000.00" type="double"/>
+    </bean>
+
+    <bean id="car2" class="cn.rain.character2.pojo.Car">
+        <constructor-arg value="沃尔沃" type="java.lang.String"/>
+        <constructor-arg value="吉利" type="java.lang.String"/>
+        <constructor-arg value="280" type="int"/>
+    </bean>
+
+    <bean id="car3" class="cn.rain.character2.pojo.Car">
+        <constructor-arg value="比亚迪 F0" type="java.lang.String"/>
+        <constructor-arg value="比亚迪" type="java.lang.String"/>
+        <constructor-arg value="255" type="int"/>
+    </bean>
+
+    <!--配置PersonList中的List<Car4>集合属性-->
+    <bean id="personList" class="cn.rain.character3.list.PersonList">
+        <property name="name" value="任伟"/>
+        <property name="age" value="26"/>
+        <property name="cars">
+            <list>
+                <ref bean="car1"/>
+                <ref bean="car2"/>
+                <ref bean="car3"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--配置PersonMap中的Map<Car4>集合属性-->
+    <bean id="personMap" class="cn.rain.character3.map.PersonMap">
+        <property name="name" value="任伟"/>
+        <property name="age" value="26"/>
+        <property name="cars">
+            <map>
+                <entry key="car1" value-ref="car1"/>
+                <entry key="car2" value-ref="car2"/>
+                <entry key="car3" value-ref="car3"/>
+            </map>
+        </property>
+    </bean>
+
+    <!--演示配置properties属性-->
+    <bean id="propertiesData" class="cn.rain.character3.properties.PropertiesData">
+        <property name="properties">
+            <props>
+                <prop key="jdbc.driver">com.mysql.jdbc.Driver</prop>
+                <prop key="jdbc.url">jdbc:mysql:localhost:3306/test</prop>
+                <prop key="jdbc.user">root</prop>
+                <prop key="jdbc.password">289443</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--使用util标签定义一个list，让其他bean中List属性直接引入该list即可，签要导入util命名空间方可使用util标签-->
+    <util:list id="cars">
+        <ref bean="car1"/>
+        <ref bean="car2"/>
+        <ref bean="car3"/>
+    </util:list>
+
+    <!--定义personList2来引用上面这个util-->
+    <bean id="personList2" class="cn.rain.character3.list.PersonList">
+        <property name="name" value="任伟"/>
+        <property name="age" value="26"/>
+        <property name="cars" ref="cars"/>
+    </bean>
+
+    <!--使用util标签预定义一个Properties，可以被Properties属性引用-->
+    <util:properties id="jdbcParam">
+        <prop key="jdbc.driver">com.mysql.jdbc.Driver</prop>
+        <prop key="jdbc.url">jdbc:mysql:localhost:3306/test</prop>
+        <prop key="jdbc.user">root</prop>
+        <prop key="jdbc.password">289443</prop>
+    </util:properties>
+
+    <!--定义propertiesData2引用上面的的properties util标签-->
+    <bean id="propertiesData2" class="cn.rain.character3.properties.PropertiesData">
+        <property name="properties" ref="jdbcParam"/>
+    </bean>
+
+    <!--演示使用p标签来为PersonList注入属性，需要先导入p命名空间，相对于传统配置更加的简洁。-->
+    <bean id="personList3" class="cn.rain.character3.list.PersonList"
+          p:name="任伟" p:age="26" p:cars-ref="cars"/>
+</beans>

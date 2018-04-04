@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+    通过构造器来注入Bean的属性，这里注意以下几点：
+    1.由于Car中没有无参构造器，因此Spring无法进行反射，这里就要求我们必须要配置Car中
+    任意一个有参的构造器来让其完成反射，具体配置如下，如果不配置<constructor-arg value=" "/>会报红。
+    2.通过构造器注入属性时，可以通过index属性来选择此value注入给哪个脚标的参数。
+    3.此种注入方式当存在参数个数相同的重载形式的构造器时（如 Car中的两个构造器），
+    不能选择注入到哪个构造器，只能按顺序注入到第一个重载的构造器。解决方案看下边的Bean的配置。
+    -->
+    <bean id="car" class="cn.rain.character2.pojo.Car">
+        <constructor-arg value="300000" index="2"/>
+        <constructor-arg value="audi" index="0"/>
+        <!--
+        如果要注入的属性包含特殊字符，可以用<![CDATA[]]>包裹起来，
+        这个要求value属性必须要写成子标签（因为直接用value属性的话就是 <>套<>了，不信可以试一下），如下：
+        -->
+        <constructor-arg index="1">
+            <value><![CDATA[<TianJin>]]></value>
+        </constructor-arg>
+    </bean>
+
+    <!--
+    除了上边的index属性外，还能使用Type属性来指定参数的类型，可以通过这种方法来选择使用
+    哪个重载的构造器(如果不使用 type属性的话，其实还是初始化的第一个构造器String,String,int这个)
+    -->
+    <bean id="car2" class="cn.rain.character2.pojo.Car">
+        <constructor-arg value="思域" type="java.lang.String"/>
+        <constructor-arg value="东风本田" type="java.lang.String"/>
+        <constructor-arg value="240" type="int"/>
+    </bean>
+
+
+    <!--为Person注入属性-->
+    <bean id="person1" class="cn.rain.character2.pojo.Person">
+        <property name="name" value="任伟"/>
+        <property name="age" value="26"/>
+        <!--通过ref属性引用定义好的Car的id-->
+        <property name="car" ref="car2"/>
+    </bean>
+
+    <bean id="person2" class="cn.rain.character2.pojo.Person">
+        <property name="name" value="任伟"/>
+        <property name="age" value="26"/>
+        <!--通过定义内部bean来为Person的Car属性注入值，由于这个内部bean不会被引用，因此无需定义id-->
+        <property name="car">
+            <bean class="cn.rain.character2.pojo.Car">
+                <constructor-arg name="brand" value="Cooper Mini"/>
+                <constructor-arg name="crop" value="宝马"/>
+                <constructor-arg name="price" value="340000.50"/>
+            </bean>
+        </property>
+        <!--
+        通过级联属性赋值，可以在Person的Bean中设置它引用的Car对象中的字段属性。
+        注意：如果我们把上边关于car的Bean都注释掉，也就是没有car的对象，通过下面
+        的配置直接给car.maxSpeed级联属性赋值是错误的，Spring会报错。
+        -->
+        <property name="car.maxSpeed" value="360"/>
+    </bean>
+
+</beans>

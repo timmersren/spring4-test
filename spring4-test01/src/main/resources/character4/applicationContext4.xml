@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置Address4的bean，由于Person4中set方法是setAddress，因此这里的bean的id必须是address才能被下面person的bean自动装配-->
+    <bean id="address" class="cn.rain.character4.pojo.Address4" p:city="天津" p:street="中北镇"/>
+    <!--配置Car4的bean,由于Person4中set方法是setCar，因此这里的bean的id必须是car才能被下面person的bean自动装配-->
+    <bean id="car" class="cn.rain.character4.pojo.Car4" p:brand="雪佛兰" p:price="10900.00"/>
+    <!--
+       配置Person4的bean，其中address和car这两个属性已经在上边配置过了，因此可以使用autowire来进行自动装配，
+       其中自动方式可以有byName、byType、constructor(构造器方式很复杂，不推荐使用)。
+
+       byName：是根据名字来完成自动装配，要求（上边那两个）bean的id必须要和需要自动装配的setXXX（set方法后边的字段名）一致，
+    若有匹配的则自动装配，若没有匹配的则不装配。
+
+       byType:是根据bean的类型和当前bean的属性的类型进行自动装配。但是这里有一个问题，比如上边的address，
+    如果配了两个，那么它就不知道自动装配哪个，运行后Spring会报错。因此这里要求需要被装配的类型必须是唯一的。
+        自动装配在实际中很少使用，详见自动装配的缺点，PPT 37页。
+    -->
+    <bean id="person" class="cn.rain.character4.pojo.Person4" p:name="任伟" autowire="byName"/>
+</beans>
