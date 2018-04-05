@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+    通过静态工厂方法来配置bean，虽然class配置的是静态工厂的class路径，
+    但是注意该bean最后获取的实例不是静态工厂，而是通过静态工厂返回的Car实例。
+    其中factory-method这个属性单独使用时（实例工厂需要先使用factory-bean）是静态工厂专有的，
+    也就是说这个属性的值必须是一个静态方法。其中：
+    class -> 指向静态工厂的全限定名
+    factory-method -> 指向静态工厂获取实例的方法名。
+    constructor-arg -> 如果factory-method指向的方法需要传参，则在此处配置。
+    -->
+    <bean id="car" class="cn.rain.character10.factory.StaticCarFactory" factory-method="getCar">
+        <constructor-arg value="雪佛兰"/>
+    </bean>
+
+
+    <!--配置实例工厂-->
+    <bean id="instanceFactory" class="cn.rain.character10.factory.InstanceCarFactory"/>
+    <!--通过实例工厂获取创建bean-->
+    <bean id="car2" factory-bean="instanceFactory" factory-method="getCar">
+        <constructor-arg value="奥迪"/>
+    </bean>
+
+
+</beans>
