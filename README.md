@@ -28,3 +28,7 @@ bean的生命周期以及使用BeanPostProcessor（bean的后置处理器）使B
 
 ## srping4-test02
 spring中通过注解的方式配置bean。
+### character1
+演示基于注解进行依赖的注入，主要演示使用@Autowired注解进行自动装配。
+### character2
+演示spring4.0的新特性，泛型依赖注入，这里只是做简单演示，实际应用自行百度。

@@ -11,6 +11,7 @@
     <modules>
         <module>spring4-test01</module>
         <module>spring4-test02</module>
+        <module>spring4-test03</module>
     </modules>
 
     <dependencies>
