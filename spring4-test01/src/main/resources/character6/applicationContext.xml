@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--不配置scope属性，默认是singleton-->
+    <bean id="car" class="cn.rain.character4.pojo.Car4"/>
+    <!--配置scope为prototype，Ioc容器在初始化的时候不创建该bean的实例，而在每次请求该bean时都会创建一个新的bean实例并返回。-->
+    <bean id="car2" class="cn.rain.character4.pojo.Car4" scope="prototype"/>
+
+</beans>

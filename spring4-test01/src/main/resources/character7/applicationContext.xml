@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+
+    <!--下面演示使用spring的bean方式配置数据源-->
+    <!--
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="user" value="root"/>
+        <property name="password" value="289443"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/xxljob"/>
+    </bean>
+    -->
+
+    <!--
+    通过上述方式配置配置是没问题的，但是我们要知道一个项目中的spring配置文件是非常多的，而且直接修改spring配置文件容易出错。
+    因此Spring提供了一个PropertyPlaceholderConfigurer(Property占位符配置器)的BeanFactory后置处理器（需导入context命名空间）,
+    这个处理器允许用户将Bean配置的部分内容外移到属性文件中。可以在 Bean 配置文件里使用形式为 ${var} 的变量,
+    PropertyPlaceholderConfigurer从属性文件里加载属性, 并使用这些属性来替换变量（spring2.5之前和之后的配置区别见PPT 47页）。
+    -->
+
+    <!--配置property占位符配置器要加载的properties文件的位置-->
+    <context:property-placeholder location="character7/db.properties"/>
+    <!--通过占位符引用properties配置文件中的属性来给bean的属性赋值-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+    </bean>
+</beans>

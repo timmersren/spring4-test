@@ -1,14 +1,15 @@
-package cn.rain.character4.pojo;
+package cn.rain.character8.pojo;
 
 /**
  * description:
- *
  * @author 任伟
- * @date 2018/4/4 16:59
+ * @date 2018/4/5 14:37
  */
-public class Car4 {
+public class Car8 {
     private String brand;
     private double price;
+    /** 轮胎的周长 */
+    private double tyrePerimeter;
 
     public String getBrand() {
         return brand;
@@ -26,15 +27,20 @@ public class Car4 {
         this.price = price;
     }
 
-    public Car4() {
-        System.out.println("调用Car4的构造器");
+    public double getTyrePerimeter() {
+        return tyrePerimeter;
+    }
+
+    public void setTyrePerimeter(double tyrePerimeter) {
+        this.tyrePerimeter = tyrePerimeter;
     }
 
     @Override
     public String toString() {
-        return "Car4{" +
+        return "Car8{" +
                 "brand='" + brand + '\'' +
                 ", price=" + price +
+                ", tyrePerimeter=" + tyrePerimeter +
                 '}';
     }
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 演示bean的生命周期，共5个步骤 -->
+    <bean id="car" class="cn.rain.character9.pojo.Car9" init-method="init" destroy-method="destroy">
+        <property name="brand" value="#{'奥迪'}"/>
+    </bean>
+</beans>

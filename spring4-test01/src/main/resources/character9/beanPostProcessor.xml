@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置自定义的Bean后置处理器-->
+    <bean class="cn.rain.character9.processor.MyBeanPostProcessor"/>
+
+    <bean id="car" class="cn.rain.character9.pojo.Car9" init-method="init" destroy-method="destroy">
+        <property name="brand" value="雪佛兰"/>
+    </bean>
+
+    <bean id="address" class="cn.rain.character8.pojo.Address8">
+        <property name="city" value="天津"/>
+        <property name="street" value="中北镇"/>
+    </bean>
+
+
+
+</beans>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置Address4的bean-->
+    <bean id="address" class="cn.rain.character4.pojo.Address4" p:city="天津" p:street="中北镇"/>
+    <!--下面演示bean的继承，使用bean中的parent属性，需要定义id，其他的都可以不定义。
+    不定义的话就直接继承过来，定义了哪个覆盖哪个，这里演示继承city属性、覆盖street属性-->
+    <bean id="address2" class="cn.rain.character4.pojo.Address4" p:city="北京" parent="address"/>
+
+    <!--
+    下面演示抽象bean 通过bean中的abstract="true",这样该bean就成为了一个模板bean，
+    IOC容器启动的时候不会实例化这个bean，它可以被其他bean继承当做模板使用。
+    一个模板bean甚至都不需要class，例如下面的配置，虽然报红但是运行是正确的。
+    另外需注意，如果一个bean没有配置class，那么这个bean必须是抽象bean，
+    也就是说非抽象bean必须要配置class。
+    -->
+    <bean id="car"  p:brand="奥迪" p:price="300000" abstract="true"/>
+    <bean id="car2" class="cn.rain.character4.pojo.Car4" parent="car"/>
+
+
+    <!--
+    下面演示bean的依赖关系，所谓依赖就是必须要关联的bean，例如现在要求配置person时，要依赖address。
+    这时使用depend-on="address"来完成依赖关系，换句话说，经过这样的依赖后，就要求配置person时必须
+    要关联一个address的bean，如果没有任何address的bean，spring会报错。
+
+    注意：
+    depends-on并不会将依赖的bean注入进来（即address并不会注入到person中去），只要这个依赖的bean存在即可。
+    可以理解成address是person的前置bean，并且这个前置bean会在person实例化之前进行实例化。
+    -->
+    <bean id="person" class="cn.rain.character4.pojo.Person4"
+          p:name="任伟" p:car-ref="car2" depends-on="address2"/>
+</beans>

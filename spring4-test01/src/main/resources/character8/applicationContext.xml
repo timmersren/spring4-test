@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 演示spEL表达式-->
+
+    <bean id="address" class="cn.rain.character8.pojo.Address8" scope="prototype">
+        <!--使用spEL为属性赋值一个字面值（字面值的意思见PPT 50页）-->
+        <property name="city" value="#{'天津'}"/>
+        <property name="street" value="中北镇"/>
+    </bean>
+
+    <bean id="car" class="cn.rain.character8.pojo.Car8">
+        <property name="brand" value="雪佛兰"/>
+        <!--使用SpEL为属性赋值一个小数-->
+        <property name="price" value="#{109000.99}"/>
+        <!--使用SpEL来引用类的静态属性（Math的PI属性，详见PPT 54页）-->
+        <property name="tyrePerimeter" value="#{T(java.lang.Math).PI * 80}"/>
+    </bean>
+
+    <bean id="person" class="cn.rain.character8.pojo.Person8">
+        <property name="name" value="任伟"/>
+        <!--使用SpEL 来引用其他的bean-->
+        <property name="car" value="#{car}"/>
+        <!--使用SpEL 来引用其他bean的属性-->
+        <property name="city" value="#{address.city}"/>
+        <!--在SpEL中使用运算符-->
+        <property name="info" value="#{car.price > 300000? '金领' : '白领'}"/>
+    </bean>
+
+
+</beans>
