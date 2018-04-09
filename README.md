@@ -32,3 +32,10 @@ spring中通过注解的方式配置bean。
 演示基于注解进行依赖的注入，主要演示使用@Autowired注解进行自动装配。
 ### character2
 演示spring4.0的新特性，泛型依赖注入，这里只是做简单演示，实际应用自行百度。
+
+## spring4-test03
+spring的AOP。
+### character1 
+演示基于AspectJ的AOP功能（spring注解形式），详细解释了5种通知类型，另外讲解了设置切面优先级以及复用切入点表达式。
+### character2
+演示通过spring的xml配置文件使用AOP。
