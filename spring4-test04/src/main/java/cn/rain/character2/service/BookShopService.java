@@ -9,7 +9,8 @@ package cn.rain.character2.service;
 public interface BookShopService {
     /**
     * description: 用户买书
-    * @param username 用户名； isbn 图书编号
+    * @param username 用户名
+    * @param isbn 图书编号
     **/
     void purchase(String username, Integer isbn);
 }
