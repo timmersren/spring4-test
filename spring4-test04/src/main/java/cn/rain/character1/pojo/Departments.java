@@ -1,4 +1,4 @@
-package cn.rain.pojo;
+package cn.rain.character1.pojo;
 
 /**
  * description: 数据库spring4中departments表的pojo对象。

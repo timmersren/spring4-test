@@ -2,8 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <!--扫描组件加入到IOC容器中-->
+    <context:component-scan base-package="cn.rain"/>
 
     <!--扫描并加载properties配置文件-->
     <context:property-placeholder location="classpath:db.properties"/>
@@ -23,4 +28,12 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+    <!--配置事务管理器的bean，并为其注入dataSource属性-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--启用事务注解。如果事务管理器的id为transactionManager，
+    那么在这里transaction-manager属性可以忽略不写，否则必须要写。-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

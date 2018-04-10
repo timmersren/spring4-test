@@ -1,6 +1,6 @@
-package cn.rain;
+package cn.rain.character1;
 
-import cn.rain.pojo.Employees;
+import cn.rain.character1.pojo.Employees;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

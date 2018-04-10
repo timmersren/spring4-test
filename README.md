@@ -42,3 +42,16 @@ spring的AOP。
 
 ## spring4-test04
 spring的JDBCTemplate演示。
+### character1
+JdbcTemplate的简单演示
+###character2
+通过一个案例演示spring中的声明式事务。
+
+spring中对事物管理是通过AOP来完成的，请看下图：
+
+![1523331040940](C:\Users\admin\Desktop\Spring-Transaction.png)
+
+上图是原生的在jdbc中使用事务的方式，其实spring就是通过AOP来切入需要事务的方法中，通过不同的通知类型来控制事务的开启、提交、回滚等。
+
+另外，还演示了事务的传播行为、事务的隔离级别、使用spring的xml配置文件方式配置事务。
+
