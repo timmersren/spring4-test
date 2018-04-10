@@ -49,7 +49,7 @@ JdbcTemplate的简单演示
 
 spring中对事物管理是通过AOP来完成的，请看下图：
 
-![1523331040940](C:\Users\admin\Desktop\Spring-Transaction.png)
+![1523331040940](image/Spring-Transaction.png)
 
 上图是原生的在jdbc中使用事务的方式，其实spring就是通过AOP来切入需要事务的方法中，通过不同的通知类型来控制事务的开启、提交、回滚等。
 
