@@ -39,3 +39,6 @@ spring的AOP。
 演示基于AspectJ的AOP功能（spring注解形式），详细解释了5种通知类型，另外讲解了设置切面优先级以及复用切入点表达式。
 ### character2
 演示通过spring的xml配置文件使用AOP。
+
+## spring4-test04
+spring的JDBCTemplate演示。
