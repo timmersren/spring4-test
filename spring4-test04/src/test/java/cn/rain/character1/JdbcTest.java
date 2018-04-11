@@ -27,7 +27,7 @@ public class JdbcTest {
 
     @org.junit.Before
     public void testInit() { // 所有测试方法执行前的初始化代码。
-        context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        context = new ClassPathXmlApplicationContext("character1/applicationContext.xml");
         jdbcTemplate = (JdbcTemplate) context.getBean("jdbcTemplate");
     }
 

@@ -20,7 +20,7 @@ public class TestBookShopDao {
 
     @Before
     public void initBean(){
-        context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        context = new ClassPathXmlApplicationContext("character1/applicationContext.xml");
         bookShopDao = (BookShopDao) context.getBean("bookShopDao");
     }
 

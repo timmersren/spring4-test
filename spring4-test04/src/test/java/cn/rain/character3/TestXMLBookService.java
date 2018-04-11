@@ -1,7 +1,7 @@
-package cn.rain.character2;
+package cn.rain.character3;
 
-import cn.rain.character2.service.BookShopService;
-import cn.rain.character2.service.CashierService;
+import cn.rain.character3.service.XMLBookShopService;
+import cn.rain.character3.service.XMLCashierService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -13,17 +13,17 @@ import java.util.Arrays;
  * @author 任伟
  * @date create on 2018-04-10 14:18
  **/
-public class TestBookShopService {
+public class TestXMLBookService {
 
     private ApplicationContext context = null;
-    private BookShopService bookShopService = null;
-    private CashierService cashierService = null;
+    private XMLBookShopService bookShopService = null;
+    private XMLCashierService cashierService = null;
 
     @Before
     public void initBean(){
-        context = new ClassPathXmlApplicationContext("character1/applicationContext.xml");
-        bookShopService = (BookShopService) context.getBean("bookShopService");
-        cashierService = (CashierService) context.getBean("cashierService");
+        context = new ClassPathXmlApplicationContext("character3/applicationContext-tx.xml");
+        bookShopService = (XMLBookShopService) context.getBean("bookShopService");
+        cashierService = (XMLCashierService) context.getBean("cashierService");
     }
 
     @Test

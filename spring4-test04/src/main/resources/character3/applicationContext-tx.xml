@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+
+    <!--扫描并加载properties配置文件-->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!--配置数据源，这里使用c3p0连接池-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="initialPoolSize" value="${jdbc.initPoolSize}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
+    </bean>
+
+    <!--配置JdbcTemplate-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--配置bean-->
+    <bean id="bookShopDao" class="cn.rain.character3.dao.impl.XMLBookShopDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="bookShopService" class="cn.rain.character3.service.impl.XMLBookShopServiceImpl">
+        <property name="XMLBookShopDao" ref="bookShopDao"/>
+    </bean>
+
+    <bean id="cashierService" class="cn.rain.character3.service.impl.XMLCashierServiceImpl">
+        <property name="XMLBookShopService" ref="bookShopService"/>
+    </bean>
+
+    <!--1.配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--2.配置事务属性,在这里可以匹配方法名对该方法名进行事务属性设置-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- 根据方法名指定事务的属性，这里可以设置事务的五种属性-->
+            <tx:method name="purchase" propagation="REQUIRES_NEW"/>
+            <!--方法名是getXX前缀的都设置readOnly属性-->
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--3.使用aop配置事务要切入的切入点（即事务要切入的目标方法），以及把事务切入点和事务属性关联起来-->
+    <aop:config>
+        <!--配置切入点-->
+        <aop:pointcut id="txPointCut" expression="execution(* cn.rain.character3.service.*.*(..))"/>
+        <!--
+        之前我们配置aop的时候是使用aop:aspect来配置切面，然后通过配置切面中的具体方法和切入点
+        使得横切关注点切入到目标方法中，例如：<aop:before method="beforeLog" pointcut-ref="pointcut"/>
+        但是这里我们不是去配置切面，我们的目的是让事务切入到目标方法中，在上边我们已经配置过txAdvice
+        事务的具体属性，这里我们只要将事务的属性和目标方法关联起来就可以使事务切入到目标方法中，使用
+        aop:advisor标签。
+        -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+    </aop:config>
+</beans>

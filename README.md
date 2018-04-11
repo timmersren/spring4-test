@@ -54,4 +54,45 @@ spring中对事物管理是通过AOP来完成的，请看下图：
 上图是原生的在jdbc中使用事务的方式，其实spring就是通过AOP来切入需要事务的方法中，通过不同的通知类型来控制事务的开启、提交、回滚等。
 
 另外，还演示了事务的五个属性：传播行为、隔离级别、rollbackFor、只读事务（readOnly）、事务超时时间（timeout）
+### character3
+演示通过spring的xml配置文件方式配置事务。
+配置步骤：
+
+1. 配置事务管理器
+2. 配置事务的属性（共5种属性可配）
+3. 通过AOP配置目标方法（即切入点），然后将步骤（2）事务的属性和切入点进行关联。
+
+```xml
+
+    <!--1.配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--2.配置事务属性,在这里可以匹配方法名对该方法名进行事务属性设置-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- 根据方法名指定事务的属性，这里可以设置事务的五种属性-->
+            <tx:method name="purchase" propagation="REQUIRES_NEW"/>
+            <!--方法名是getXX前缀的都设置readOnly属性-->
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--3.使用aop配置事务要切入的切入点（即事务要切入的目标方法），以及把事务切入点和事务属性关联起来-->
+    <aop:config>
+        <!--配置切入点-->
+        <aop:pointcut id="txPointCut" expression="execution(* cn.rain.character3.service.*.*(..))"/>
+        <!--
+        之前我们配置aop的时候是使用aop:aspect来配置切面，然后通过配置切面中的具体方法和切入点
+        使得横切关注点切入到目标方法中，例如：<aop:before method="beforeLog" pointcut-ref="pointcut"/>
+        但是这里我们不是去配置切面，我们的目的是让事务切入到目标方法中，在上边我们已经配置过txAdvice
+        事务的具体属性，这里我们只要将事务的属性和目标方法关联起来就可以使事务切入到目标方法中，使用
+        aop:advisor标签。
+        -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+    </aop:config>
+```
 

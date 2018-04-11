@@ -23,6 +23,7 @@ import java.util.List;
  * @date 2018/4/9 14:38
  */
 
+@SuppressWarnings("all")
 @Component
 @Aspect
 @Order(2)
