@@ -13,6 +13,7 @@
         <module>spring4-test02</module>
         <module>spring4-test03</module>
         <module>spring4-test04</module>
+        <module>spring-source</module>
     </modules>
 
     <dependencies>
